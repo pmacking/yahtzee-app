@@ -27,7 +27,7 @@ bcrypt = Bcrypt(app)
 # init LoginManager
 login_manager = LoginManager(app)
 # TODO: confirm this section of login manager uses the right app. routing
-login_manager.login_view = 'app.login'
+login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
 # init Marshmallow
