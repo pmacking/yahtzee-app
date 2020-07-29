@@ -182,6 +182,16 @@ def account():
                            image_file=image_file, form=form)
 
 
+@users.route("/games", methods=['GET', 'POST'])
+# @login_required ensures /account page can only be accessed by authed users
+@login_required
+def games():
+    """
+    This function responds to the URL /games
+    """
+    return render_template("games.html", title='Games')
+
+
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():  # func is named _request vs above _password in url
     """
