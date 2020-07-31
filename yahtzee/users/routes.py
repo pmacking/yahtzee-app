@@ -7,7 +7,7 @@ from yahtzee import db, bcrypt
 from yahtzee.users.forms import (RegistrationForm, LoginForm,
                                  UpdateAccountForm, RequestResetForm,
                                  ResetPasswordForm)
-from yahtzee.models import User
+from yahtzee.models import User, UsersGames
 from yahtzee.users.utils import save_picture, send_reset_email
 
 
@@ -189,7 +189,12 @@ def games():
     """
     This function responds to the URL /games
     """
-    return render_template("games.html", title='Games')
+    usersgames = UsersGames.query.\
+        filter_by(user_id=current_user.id).\
+        order_by(UsersGames.users_games_id.desc()).\
+        all()
+
+    return render_template("games.html", title='Games', usersgames=usersgames)
 
 
 @users.route("/reset_password", methods=['GET', 'POST'])

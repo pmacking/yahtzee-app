@@ -1,4 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>Games Page</h1>
+    {% for usergame in usersgames %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <medium class="text-muted">Game ID:</medium>
+              <a class="mr-2" href="#">{{ usergame.game_id }}</a>
+            </div>
+            <h2>
+                <medium class="test-muted">Score:</medium>
+                <a class="article-title" href="#">{{ usergame.grand_total_score }}</a>
+            </h2>
+          </div>
+        </article>
+    {% endfor %}
 {% endblock content %}

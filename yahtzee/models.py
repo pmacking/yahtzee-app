@@ -164,7 +164,11 @@ class Game(db.Model):
     __tablename__ = "game"
     game_id = db.Column(db.Integer, nullable=False, primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-    users_games = db.relationship('UsersGames', backref='game', lazy=True)
+    users_games = db.relationship(
+        'UsersGames',
+        backref='game',
+        lazy=True
+        )
 
     def __repr__(self):
         return f"Game('{self.game_id}', '{self.timestamp}', "

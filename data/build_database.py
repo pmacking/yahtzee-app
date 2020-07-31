@@ -14,14 +14,14 @@ from yahtzee.models import Game, User, UsersGames
 USERS = [
     {
         'username': 'paulmaclachlan',
-        'password': 'password',
+        'password': '$2b$12$OfCz.7i1AMB5zfMgqzSam..LAT3t8B3ckst8WQMIIkEgVg8S27km6',
         'first_name': 'Paul',
         'last_name': 'Maclachlan',
         'email': 'test@test.com',
     },
     {
         'username': 'tayamaclachlan',
-        'password': 'password',
+        'password': '$2b$12$OfCz.7i1AMB5zfMgqzSam..LAT3t8B3ckst8WQMIIkEgVg8S27km6',
         'first_name': 'Taya',
         'last_name': 'Maclachlan',
         'email': 'test@test.ca',
