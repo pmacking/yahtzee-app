@@ -75,7 +75,7 @@ def login():
     """
     # check if user is already authenticated, if so redirect to home page
     if current_user.is_authenticated:
-        return redirect(url_for('main.home'))
+        return redirect(url_for('games.usersgames'))
 
     form = LoginForm()
 
@@ -97,7 +97,7 @@ def login():
             next_page = request.args.get('next')
 
             return redirect(next_page) if next_page \
-                else redirect(url_for('main.home'))
+                else redirect(url_for('games.usersgames'))
         else:
             # flash error message to user
             flash(
@@ -180,21 +180,6 @@ def account():
 
     return render_template("account.html", title='Account',
                            image_file=image_file, form=form)
-
-
-@users.route("/games", methods=['GET', 'POST'])
-# @login_required ensures /account page can only be accessed by authed users
-@login_required
-def games():
-    """
-    This function responds to the URL /games
-    """
-    usersgames = UsersGames.query.\
-        filter_by(user_id=current_user.id).\
-        order_by(UsersGames.users_games_id.desc()).\
-        all()
-
-    return render_template("games.html", title='Games', usersgames=usersgames)
 
 
 @users.route("/reset_password", methods=['GET', 'POST'])
