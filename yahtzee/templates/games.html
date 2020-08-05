@@ -1,11 +1,25 @@
 {% extends "layout.html" %}
 {% block content %}
+    <div class="content-section">
+        <div class="media">
+            <div class="media-body">
+                <h2 class="account-heading">Start New Game</h2>
+            </div>
+        </div>
+        <form method="POST" action="" enctype="multipart/form-data">
+                {{ form.hidden_tag() }} <!-- adds CSRF token: protect attacks-->
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+
     {% for usergame in usersgames %}
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
               <medium class="text-muted">Game:</medium>
-              <a class="mr-2" href="{{ url_for('games.usergame', usergame=usergame.users_games_id) }}">{{ usergame.game_id }}</a>
+              <a class="mr-2" href="{{ url_for('games.usergame', usergame_id=usergame.users_games_id) }}">{{ usergame.game_id }}</a>
             </div>
             <h2>
                 <medium class="test-muted">Score:</medium>

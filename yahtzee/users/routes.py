@@ -7,7 +7,7 @@ from yahtzee import db, bcrypt
 from yahtzee.users.forms import (RegistrationForm, LoginForm,
                                  UpdateAccountForm, RequestResetForm,
                                  ResetPasswordForm)
-from yahtzee.models import User, UsersGames
+from yahtzee.models import User
 from yahtzee.users.utils import save_picture, send_reset_email
 
 
@@ -17,7 +17,7 @@ logger.setLevel(logging.INFO)
 
 formatter = logging.Formatter('%(levelname)s:%(name)s:%(message)s')
 
-file_handler = logging.FileHandler('yahtzee/users.log')
+file_handler = logging.FileHandler('yahtzee/logs/users.log')
 file_handler.setFormatter(formatter)
 
 logger.addHandler(file_handler)
