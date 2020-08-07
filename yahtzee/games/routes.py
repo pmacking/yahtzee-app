@@ -11,7 +11,7 @@ import logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-formatter = logging.Formatter('%(levelname)s:%(name)s:%(message)s')
+formatter = logging.Formatter('%(asctime)s:%(levelname)s:%(name)s:%(message)s')
 
 file_handler = logging.FileHandler('yahtzee/logs/games.log')
 file_handler.setFormatter(formatter)
@@ -22,9 +22,9 @@ logger.addHandler(file_handler)
 games = Blueprint('games', __name__)
 
 
-@games.route("/usersgames", methods=['GET', 'POST'])
+@games.route("/games", methods=['GET', 'POST'])
 @login_required
-def usersgames():
+def get_games():
     """
     This function responds to the URL /games
     """
@@ -50,7 +50,7 @@ def usersgames():
         try:
             db.session.add(usersgame)
             db.session.commit()
-            flash(f'New Game Started: {game.game_id}.', 'success')
+            flash(f'New Game Started: {game.game_id}', 'success')
             logger.info(f"New UsersGames:{usersgame.users_games_id}")
         except Exception as e:
             logger.exception(f'{e}')
@@ -67,14 +67,15 @@ def usersgames():
         order_by(UsersGames.users_games_id.desc()).\
         all()
 
-    return render_template("games.html",
-                           title='Games',
-                           usersgames=usersgames,
-                           form=form
-                           )
+    return render_template(
+        "games.html",
+        title='Games',
+        usersgames=usersgames,
+        form=form
+        )
 
 
-@games.route("/usersgames/<usergame_id>", methods=['GET', 'POST'])
+@games.route("/games/<usergame_id>", methods=['GET', 'POST'])
 @login_required
 def usergame(usergame_id):
     """
@@ -82,5 +83,10 @@ def usergame(usergame_id):
 
     param: users_games_id from UserGames model
     """
+    usergame = UsersGames.query.get_or_404(usergame_id)
 
-    return usergame_id
+    return render_template(
+        "usergame.html",
+        title=usergame.users_games_id,
+        usergame=usergame
+        )

@@ -14,17 +14,15 @@
         </form>
     </div>
 
-    {% for usergame in usersgames %}
+    {% for ug in usersgames %}
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
               <medium class="text-muted">Game:</medium>
-              <a class="mr-2" href="{{ url_for('games.usergame', usergame_id=usergame.users_games_id) }}">{{ usergame.game_id }}</a>
+              <a class="mr-2" href="{{ url_for('games.usergame', usergame_id=ug.users_games_id) }}">{{ ug.game_id }}</a>
             </div>
-            <h2>
-                <medium class="test-muted">Score:</medium>
-                <a class="article-title" href="#">{{ usergame.grand_total_score }}</a>
-            </h2>
+                <medium class="test-muted">Total Score:</medium>
+                <a class="article-title" href="#">{{ ug.grand_total_score }}</a>
           </div>
         </article>
     {% endfor %}
