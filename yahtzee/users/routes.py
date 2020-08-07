@@ -97,7 +97,7 @@ def login():
             next_page = request.args.get('next')
 
             return redirect(next_page) if next_page \
-                else redirect(url_for('games.usersgames'))
+                else redirect(url_for('games.read_games'))
         else:
             # flash error message to user
             flash(

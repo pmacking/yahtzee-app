@@ -1,9 +1,9 @@
-from flask import render_template, Blueprint, flash, redirect, url_for
+from flask import render_template, Blueprint, flash, redirect, url_for, abort
 from flask_login import current_user, login_required
 
 from yahtzee import db
 from yahtzee.models import UsersGames, Game
-from yahtzee.games.forms import StartNewGameForm
+from yahtzee.games.forms import CreateGameForm
 
 import logging
 
@@ -24,12 +24,34 @@ games = Blueprint('games', __name__)
 
 @games.route("/games", methods=['GET', 'POST'])
 @login_required
-def get_games():
+def read_games():
+    """
+    This function responds to the URL /games
+    """
+    # display existing usersgames for current_user in template
+    usersgames = UsersGames.query.\
+        filter_by(user_id=current_user.id).\
+        order_by(UsersGames.users_games_id.desc()).\
+        all()
+
+    if not usersgames:
+        return redirect(url_for('games.create_game'))
+
+    return render_template(
+        "read_games.html",
+        title='Games',
+        usersgames=usersgames,
+        )
+
+
+@games.route("/games/new", methods=['GET', 'POST'])
+@login_required
+def create_game():
     """
     This function responds to the URL /games
     """
 
-    form = StartNewGameForm()
+    form = CreateGameForm()
 
     if form.validate_on_submit():
 
@@ -58,32 +80,35 @@ def get_games():
         # redirect user to new game
         return redirect(url_for(
                     'games.usergame',
+                    game_id=game.game_id,
                     usergame_id=usersgame.users_games_id)
                     )
 
-    # display existing usersgames for current_user in template
-    usersgames = UsersGames.query.\
-        filter_by(user_id=current_user.id).\
-        order_by(UsersGames.users_games_id.desc()).\
-        all()
-
     return render_template(
-        "games.html",
-        title='Games',
-        usersgames=usersgames,
+        "create_game.html",
+        title='New Game',
         form=form
         )
 
 
-@games.route("/games/<usergame_id>", methods=['GET', 'POST'])
+@games.route(
+    "/games/<int:game_id>/usersgames/<int:usergame_id>",
+    methods=['GET', 'POST']
+    )
 @login_required
-def usergame(usergame_id):
+def usergame(game_id, usergame_id):
     """
     This function responds to the URL /usersgames/<usergame>
 
     param: users_games_id from UserGames model
     """
     usergame = UsersGames.query.get_or_404(usergame_id)
+
+    # validate current_user is part of the game and usergame
+    if game_id != usergame.game_id:
+        abort(403)
+    if usergame.user_id != current_user.id:
+        abort(403)
 
     return render_template(
         "usergame.html",

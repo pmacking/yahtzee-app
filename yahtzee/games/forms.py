@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import SubmitField
 
 
-class StartNewGameForm(FlaskForm):
+class CreateGameForm(FlaskForm):
     """
     This is the start new game form utilized in /usersgames route
 
