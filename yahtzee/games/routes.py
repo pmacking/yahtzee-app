@@ -34,13 +34,20 @@ def read_games():
         order_by(UsersGames.users_games_id.desc()).\
         all()
 
+    # The above usergames object worked with a for loop in the template
+    # Leaving this games query here as it returned the data expected
+    # games = Game.query.\
+    #     filter(Game.users_games.any(UsersGames.user_id == current_user.id)).\
+    #     order_by(Game.game_id.desc()).\
+    #     all()
+
     if not usersgames:
         return redirect(url_for('games.create_game'))
 
     return render_template(
         "read_games.html",
         title='Games',
-        usersgames=usersgames,
+        usersgames=usersgames
         )
 
 
