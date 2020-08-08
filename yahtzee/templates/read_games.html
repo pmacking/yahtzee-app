@@ -10,7 +10,11 @@
               {% for usergame in ug.game.users_games %}
                 <div>
                   <medium class="test-muted">{{ usergame.user.username }}:</medium>
+                  {% if usergame.grand_total_score != None %}
                   {{ usergame.grand_total_score }}
+                  {% else %}
+                  0
+                  {% endif %}
                 </div>
               {% endfor %}
           </div>

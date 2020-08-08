@@ -13,35 +13,83 @@
                 </tr>
                 <tr>
                     <td>Ones</td>
-                    <td class="align-right">{{ usergame.ones }}</td>
+                    <td class="align-right">
+                    {% if usergame.ones != None %}
+                    {{ usergame.ones }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td>Twos</td>
-                    <td class="align-right">{{ usergame.twos }}</td>
+                    <td class="align-right">
+                    {% if usergame.twos != None %}
+                    {{ usergame.twos }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td>Threes</td>
-                    <td class="align-right">{{ usergame.threes }}</td>
+                    <td class="align-right">
+                    {% if usergame.threes != None %}
+                    {{ usergame.threes }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td>Fours</td>
-                    <td class="align-right">{{ usergame.fours }}</td>
+                    <td class="align-right">
+                    {% if usergame.fours != None %}
+                    {{ usergame.fours }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td>Fives</td>
-                    <td class="align-right">{{ usergame.fives }}</td>
+                    <td class="align-right">
+                    {% if usergame.fives != None %}
+                    {{ usergame.fives }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td>Sixes</td>
-                    <td class="align-right">{{ usergame.sixes }}</td>
+                    <td class="align-right">
+                    {% if usergame.sixes != None %}
+                    {{ usergame.sixes }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
-                    <td class="bold">Top Bonus Score</th>
-                    <td class="bold align-right">{{ usergame.top_bonus_score }}</th>
+                    <td class="bold">Top Bonus Score</td>
+                    <td class="bold align-right">
+                    {% if usergame.top_bonus_score != None %}
+                    {{ usergame.top_bonus_score }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
-                    <td class="bold">Total Top Score</th>
-                    <td class="bold align-right">{{ usergame.total_top_score }}</th>
+                    <td class="bold">Total Top Score</td>
+                    <td class="bold align-right">
+                    {% if usergame.total_top_score != None %}
+                    {{ usergame.total_top_score }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
             </table>
         </div>
@@ -53,39 +101,93 @@
                 </tr>
                 <tr>
                     <td>Three of a Kind</td>
-                    <td class="align-right">{{ usergame.three_of_a_kind }}</td>
+                    <td class="align-right">
+                    {% if usergame.three_of_a_kind != None %}
+                    {{ usergame.three_of_a_kind }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td>Four of a Kind</td>
-                    <td class="align-right">{{ usergame.four_of_a_kind }}</td>
+                    <td class="align-right">
+                    {% if usergame.four_of_a_kind != None %}
+                    {{ usergame.four_of_a_kind }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td>Full House</td>
-                    <td class="align-right">{{ usergame.full_house }}</td>
+                    <td class="align-right">
+                    {% if usergame.full_house != None %}
+                    {{ usergame.full_house }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td>Small Straight</td>
-                    <td class="align-right">{{ usergame.small_straight }}</td>
+                    <td class="align-right">
+                    {% if usergame.small_straight != None %}
+                    {{ usergame.small_straight }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td>Large Straight</td>
-                    <td class="align-right">{{ usergame.large_straight }}</td>
+                    <td class="align-right">
+                    {% if usergame.large_straight != None %}
+                    {{ usergame.large_straight }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td>Yahtzee</td>
-                    <td class="align-right">{{ usergame.yahtzee }}</td>
+                    <td class="align-right">
+                    {% if usergame.yahtzee != None %}
+                    {{ usergame.yahtzee }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td>Chance</td>
-                    <td class="align-right">{{ usergame.chance }}</td>
+                    <td class="align-right">
+                    {% if usergame.chance != None %}
+                    {{ usergame.chance }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td>Yahtzee Bonus</td>
-                    <td class="align-right">{{ usergame.yahtzee_bonus }}</td>
+                    <td class="align-right">
+                    {% if usergame.yahtzee_bonus != None %}
+                    {{ usergame.yahtzee_bonus }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
-                    <td class="bold align-right">Total Bottom Score</th>
-                    <td class="bold align-right">{{ usergame.total_bottom_score }}</th>
+                    <td class="bold align-right">Total Bottom Score</td>
+                    <td class="bold align-right">
+                    {% if usergame.total_bottom_score != None %}
+                    {{ usergame.total_bottom_score }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
             </table>
         </div>
@@ -100,15 +202,33 @@
                 </tr>
                 <tr>
                     <td>Total Top Score</td>
-                    <td class="align-right">{{ usergame.total_top_score }}</td>
+                    <td class="align-right">
+                    {% if usergame.total_top_score != None %}
+                    {{ usergame.total_top_score }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td>Total Bottom Score</td>
-                    <td class="align-right">{{ usergame.total_bottom_score }}</td>
+                    <td class="align-right">
+                    {% if usergame.total_bottom_score != None %}
+                    {{ usergame.total_bottom_score }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td class="bold">Grand Total Score</td>
-                    <td class="bold align-right">{{ usergame.grand_total_score }}</td>
+                    <td class="bold align-right">
+                    {% if usergame.grand_total_score != None %}
+                    {{ usergame.grand_total_score }}
+                    {% else %}
+                    0
+                    {% endif %}
+                    </td>
                 </tr>
             </table>
         </div>
