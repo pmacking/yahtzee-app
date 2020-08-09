@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 
 from yahtzee import db
 from yahtzee.models import UsersGames, Game
-from yahtzee.games.forms import CreateGameForm
+from yahtzee.games.forms import CreateGameForm, PlayGameForm
 
 import logging
 
@@ -109,6 +109,15 @@ def usergame(game_id, usergame_id):
 
     param: users_games_id from UserGames model
     """
+    form = PlayGameForm()
+
+    if form.validate_on_submit():
+        return redirect(url_for(
+            'games.usergame_turn',
+            game_id=game_id,
+            usergame_id=usergame_id)
+            )
+
     usergame = UsersGames.query.get_or_404(usergame_id)
 
     # validate current_user is part of the game and usergame
@@ -119,6 +128,33 @@ def usergame(game_id, usergame_id):
 
     return render_template(
         "usergame.html",
+        title=usergame.users_games_id,
+        usergame=usergame,
+        form=form
+        )
+
+
+@games.route(
+    "/games/<int:game_id>/usersgames/<int:usergame_id>/turn",
+    methods=['GET', 'POST']
+    )
+@login_required
+def usergame_turn(game_id, usergame_id):
+    """
+    This function responds to the URL /usersgames/<usergame>
+
+    param: users_games_id from UserGames model
+    """
+    usergame = UsersGames.query.get_or_404(usergame_id)
+
+    # validate current_user is part of the game and usergame
+    if game_id != usergame.game_id:
+        abort(403)
+    if usergame.user_id != current_user.id:
+        abort(403)
+
+    return render_template(
+        "usergame_turn.html",
         title=usergame.users_games_id,
         usergame=usergame
         )
