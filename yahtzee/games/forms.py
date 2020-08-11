@@ -2,25 +2,28 @@ from flask_wtf import FlaskForm
 from wtforms import SubmitField
 
 
-class CreateGameForm(FlaskForm):
+class NewGameForm(FlaskForm):
     """
-    This is the start new game form utilized in /usersgames route
+    This is the new game button utilized in read_games route
 
     :param FlaskForm: class inheretence from FlaskForm in flask_wtf
     """
-    # add attributes set to imported wtforms classes
-    # included args '<Titlecase>' html label
-    # add args as imported wtforms.validators classes with sub args as req
     submit = SubmitField('New Game')
+
+
+class CreateGameForm(FlaskForm):
+    """
+    This is the start new game form utilized in usersgames route
+
+    :param FlaskForm: class inheretence from FlaskForm in flask_wtf
+    """
+    submit = SubmitField('Create Game')
 
 
 class PlayGameForm(FlaskForm):
     """
-    This is the start new game form utilized in /usersgames route
+    This is the play game form utilized in usergame route
 
     :param FlaskForm: class inheretence from FlaskForm in flask_wtf
     """
-    # add attributes set to imported wtforms classes
-    # included args '<Titlecase>' html label
-    # add args as imported wtforms.validators classes with sub args as req
     submit = SubmitField('Play Game')

@@ -1,23 +1,31 @@
 {% extends "layout.html" %}
 {% block content %}
-    {% for ug in usersgames %}
-        <article class="media content-section">
-          <div class="media-body">
-            <div class="article-metadata">
-              <medium class="text-muted">Game:</medium>
-              <a class="mr-2" href="{{ url_for('games.usergame', game_id=ug.game_id, usergame_id=ug.users_games_id) }}">{{ ug.game_id }}</a>
-            </div>
-              {% for usergame in ug.game.users_games %}
-                <div>
-                  <medium class="test-muted">{{ usergame.user.username }}:</medium>
-                  {% if usergame.grand_total_score != None %}
-                  {{ usergame.grand_total_score }}
-                  {% else %}
-                  0
-                  {% endif %}
-                </div>
-              {% endfor %}
+  <div class="media body">
+      <form method="POST" action="">
+          {{ form.hidden_tag() }} <!-- adds CSRF token: protect attacks-->
+          <div class="form-group">
+              {{ form.submit(class="btn btn-outline-info mt-1") }}
           </div>
-        </article>
-    {% endfor %}
+      </form>
+  </div>
+  {% for ug in usersgames %}
+      <article class="media content-section">
+        <div class="media-body">
+          <div class="article-metadata">
+            <medium class="text-muted">Game:</medium>
+            <a class="mr-2" href="{{ url_for('games.usergame', game_id=ug.game_id, usergame_id=ug.users_games_id) }}">{{ ug.game_id }}</a>
+          </div>
+            {% for usergame in ug.game.users_games %}
+              <div>
+                <medium class="test-muted">{{ usergame.user.username }}:</medium>
+                {% if usergame.grand_total_score != None %}
+                {{ usergame.grand_total_score }}
+                {% else %}
+                0
+                {% endif %}
+              </div>
+            {% endfor %}
+        </div>
+      </article>
+  {% endfor %}
 {% endblock content %}

@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 
 from yahtzee import db
 from yahtzee.models import User, UsersGames, Game
-from yahtzee.games.forms import CreateGameForm, PlayGameForm
+from yahtzee.games.forms import NewGameForm, CreateGameForm, PlayGameForm
 from yahtzee.games.utils import get_game_state_json
 
 import logging, json
@@ -29,6 +29,11 @@ def read_games():
     """
     This function responds to the URL /games
     """
+    form = NewGameForm()
+
+    if form.validate_on_submit():
+        return redirect(url_for('games.create_game'))
+
     # display existing usersgames for current_user in template
     usersgames = UsersGames.query.\
         filter_by(user_id=current_user.id).\
@@ -42,13 +47,15 @@ def read_games():
     #     order_by(Game.game_id.desc()).\
     #     all()
 
+    # check if user has usersgame, and if not redirect to create a game
     if not usersgames:
         return redirect(url_for('games.create_game'))
 
     return render_template(
         "read_games.html",
         title='Games',
-        usersgames=usersgames
+        usersgames=usersgames,
+        form=form
         )
 
 
