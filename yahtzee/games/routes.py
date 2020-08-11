@@ -79,10 +79,10 @@ def create_game():
         except Exception as e:
             logger.exception(f'{e}')
 
-        # update game's player_1 as current_user
+        # update new game_state player_1 as current_user, and turn_user_id
         game_state_json = json.loads(game.game_state)
         game_state_json["players"]["player_1"]["user_id"] = current_user.id
-        game_state_json["turn"] = current_user.id
+        game_state_json["turn_user_id"] = current_user.id
 
         game.game_state = json.dumps(game_state_json)
 
@@ -130,8 +130,8 @@ def usergame(game_id, usergame_id):
 
     # get user whose turn it is
     game_state_json = get_game_state_json(usergame.game_id)
-    turn_id = game_state_json["turn"]
-    turn_user = User.query.get_or_404(turn_id)
+    turn_user_id = game_state_json["turn_user_id"]
+    turn_user = User.query.get_or_404(turn_user_id)
 
     # validate current_user is part of the game and usergame
     if game_id != usergame.game_id:
@@ -142,7 +142,7 @@ def usergame(game_id, usergame_id):
     if form.validate_on_submit():
 
         # validate it is current_user turn before redirect to play game
-        if turn_id != current_user.id:
+        if turn_user_id != current_user.id:
             flash(f"It is {turn_user.username}'s turn. Please wait for your "
                   f"turn.", 'danger')
         else:

@@ -168,26 +168,30 @@ class Game(db.Model):
         "players": {
             "player_1": {
                 "user_id": None,
+                "turn": 1,
                 "roll": 1,
                 "rank": None
                 },
             "player_2": {
                 "user_id": None,
+                "turn": 1,
                 "roll": 1,
                 "rank": None
                 },
             "player_3": {
                 "user_id": None,
+                "turn": 1,
                 "roll": 1,
                 "rank": None
                 },
             "player_4": {
                 "user_id": None,
+                "turn": 1,
                 "roll": 1,
                 "rank": None
                 },
         },
-        "turn": None
+        "turn_user_id": None
     }
     game_state_json = json.dumps(game_state_python)
 
