@@ -2,10 +2,11 @@ from flask import render_template, Blueprint, flash, redirect, url_for, abort
 from flask_login import current_user, login_required
 
 from yahtzee import db
-from yahtzee.models import UsersGames, Game
+from yahtzee.models import User, UsersGames, Game
 from yahtzee.games.forms import CreateGameForm, PlayGameForm
+from yahtzee.games.utils import get_game_state_json
 
-import logging
+import logging, json
 
 # create logger and file_handler for logging user routes
 logger = logging.getLogger(__name__)
@@ -71,6 +72,13 @@ def create_game():
         except Exception as e:
             logger.exception(f'{e}')
 
+        # update game's player_1 as current_user
+        game_state_json = json.loads(game.game_state)
+        game_state_json["players"]["player_1"]["user_id"] = current_user.id
+        game_state_json["turn"] = current_user.id
+
+        game.game_state = json.dumps(game_state_json)
+
         # create usersgames in db with relationship to game and current_user
         usersgame = UsersGames(
                     user_id=current_user.id,
@@ -111,14 +119,12 @@ def usergame(game_id, usergame_id):
     """
     form = PlayGameForm()
 
-    if form.validate_on_submit():
-        return redirect(url_for(
-            'games.usergame_turn',
-            game_id=game_id,
-            usergame_id=usergame_id)
-            )
-
     usergame = UsersGames.query.get_or_404(usergame_id)
+
+    # get user whose turn it is
+    game_state_json = get_game_state_json(usergame.game_id)
+    turn_id = game_state_json["turn"]
+    turn_user = User.query.get_or_404(turn_id)
 
     # validate current_user is part of the game and usergame
     if game_id != usergame.game_id:
@@ -126,10 +132,24 @@ def usergame(game_id, usergame_id):
     if usergame.user_id != current_user.id:
         abort(403)
 
+    if form.validate_on_submit():
+
+        # validate it is current_user turn before redirect to play game
+        if turn_id != current_user.id:
+            flash(f"It is {turn_user.username}'s turn. Please wait for your "
+                  f"turn.", 'danger')
+        else:
+            return redirect(url_for(
+                'games.usergame_turn',
+                game_id=game_id,
+                usergame_id=usergame_id)
+                )
+
     return render_template(
         "usergame.html",
-        title=usergame.users_games_id,
+        title=usergame.game_id,
         usergame=usergame,
+        turn_user=turn_user,
         form=form
         )
 
@@ -153,8 +173,16 @@ def usergame_turn(game_id, usergame_id):
     if usergame.user_id != current_user.id:
         abort(403)
 
+    game = usergame.game
+
+    # TODO: add validation on endpoint to ensure it's the current_user's turn
+    # current_game_state = json.loads(game.game_state)
+    # if current_game_state["turn"] != current_user.id:
+    #     flash('It is not your turn', 'danger')
+
     return render_template(
         "usergame_turn.html",
-        title=usergame.users_games_id,
-        usergame=usergame
+        title=usergame.game_id,
+        usergame=usergame,
+        game=game
         )

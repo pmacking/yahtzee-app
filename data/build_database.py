@@ -2,7 +2,7 @@
 This is a utility module to initialize, clean, and create the SQLite3 db.
 """
 
-import os, sys
+import os, sys, json
 
 # adds __file__ parent dir (/yahtzee-app) to sys.path to enable config ref
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
@@ -28,8 +28,37 @@ USERS = [
     }
 ]
 
+# create build game state for turns, rolls, and rankings
+test_game_state_python = {
+                            "players": {
+                                "player_1": {
+                                    "user_id": 1,
+                                    "roll": 1,
+                                    "rank": None
+                                    },
+                                "player_2": {
+                                    "user_id": 2,
+                                    "roll": 1,
+                                    "rank": None
+                                    },
+                                "player_3": {
+                                    "user_id": None,
+                                    "roll": None,
+                                    "rank": None
+                                    },
+                                "player_4": {
+                                    "user_id": None,
+                                    "roll": None,
+                                    "rank": None
+                                    },
+                            },
+                            "turn": 1
+                        }
+test_game_state_json = json.dumps(test_game_state_python)
+
 GAMES = [
     {
+        "game_state": test_game_state_json
     }
 ]
 
@@ -66,7 +95,9 @@ for user in USERS:
 
 # iterate over GAMES dummy data and populate the games in the db
 for game in GAMES:
-    g = Game()
+    g = Game(
+        game_state=game['game_state']
+        )
     db.session.add(g)
 
 # iterate over the USERSGAMES dummy data and populate the users_games in the db

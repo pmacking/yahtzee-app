@@ -9,6 +9,8 @@ from flask_login import UserMixin
 
 from yahtzee import db, ma, login_manager, app
 
+import json
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -161,9 +163,38 @@ class Game(db.Model):
     """
     Game model which defines the game attributes and db table/fields.
     """
+    # create default JSON game_state to manage turns, rolls, and game ranks
+    game_state_python = {
+        "players": {
+            "player_1": {
+                "user_id": None,
+                "roll": 1,
+                "rank": None
+                },
+            "player_2": {
+                "user_id": None,
+                "roll": 1,
+                "rank": None
+                },
+            "player_3": {
+                "user_id": None,
+                "roll": 1,
+                "rank": None
+                },
+            "player_4": {
+                "user_id": None,
+                "roll": 1,
+                "rank": None
+                },
+        },
+        "turn": None
+    }
+    game_state_json = json.dumps(game_state_python)
+
     __tablename__ = "game"
     game_id = db.Column(db.Integer, nullable=False, primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    game_state = db.Column(db.Text, nullable=False, default=game_state_json)
     users_games = db.relationship(
         'UsersGames',
         backref='game',
@@ -172,7 +203,7 @@ class Game(db.Model):
 
     def __repr__(self):
         return f"Game('{self.game_id}', '{self.timestamp}', "
-        f"'{self.users_games}')"
+        f"'{self.users_games}, {self.game_state}')"
 
 
 class GameSchema(ma.SQLAlchemyAutoSchema):
