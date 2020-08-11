@@ -147,9 +147,10 @@ def usergame(game_id, usergame_id):
                   f"turn.", 'danger')
         else:
             return redirect(url_for(
-                'games.usergame_turn',
+                'games.usergame_round',
                 game_id=game_id,
-                usergame_id=usergame_id)
+                usergame_id=usergame_id,
+                round_id=usergame.round_id)
                 )
 
     return render_template(
@@ -162,15 +163,17 @@ def usergame(game_id, usergame_id):
 
 
 @games.route(
-    "/games/<int:game_id>/usersgames/<int:usergame_id>/turn",
+    "/games/<int:game_id>/usersgames/<int:usergame_id>/round/<int:round_id>",
     methods=['GET', 'POST']
     )
 @login_required
-def usergame_turn(game_id, usergame_id):
+def usergame_round(game_id, usergame_id, round_id):
     """
     This function responds to the URL /usersgames/<usergame>
 
-    param: users_games_id from UserGames model
+    :param game_id: game_id from Game model
+    :param usergame_id: users_games_id from UserGames model
+    :param turn_id: turn count from from UserGames model
     """
     usergame = UsersGames.query.get_or_404(usergame_id)
 
@@ -182,13 +185,21 @@ def usergame_turn(game_id, usergame_id):
 
     game = usergame.game
 
-    # TODO: add validation on endpoint to ensure it's the current_user's turn
-    # current_game_state = json.loads(game.game_state)
-    # if current_game_state["turn"] != current_user.id:
-    #     flash('It is not your turn', 'danger')
+    # get turn_user_id from game_state for validation
+    game_state_json = get_game_state_json(usergame.game_id)
+    turn_user_id = game_state_json["turn_user_id"]
+    # get current_round from usergame for validation
+    current_round = usergame.round_id
+
+    # validate it's the current user's turn from game_state
+    if turn_user_id != current_user.id:
+        abort(403)
+    # validate round_id is equivalent to current_round in usersgame
+    if round_id != current_round:
+        abort(403)
 
     return render_template(
-        "usergame_turn.html",
+        "usergame_round.html",
         title=usergame.game_id,
         usergame=usergame,
         game=game

@@ -33,26 +33,18 @@ test_game_state_python = {
                             "players": {
                                 "player_1": {
                                     "user_id": 1,
-                                    "turn": 1,
-                                    "roll": 1,
                                     "rank": None
                                     },
                                 "player_2": {
                                     "user_id": 2,
-                                    "turn": 1,
-                                    "roll": 1,
                                     "rank": None
                                     },
                                 "player_3": {
                                     "user_id": None,
-                                    "turn": None,
-                                    "roll": None,
                                     "rank": None
                                     },
                                 "player_4": {
                                     "user_id": None,
-                                    "turn": None,
-                                    "roll": None,
                                     "rank": None
                                     },
                             },

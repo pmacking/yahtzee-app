@@ -45,6 +45,8 @@ class UsersGames(db.Model):
     total_top_score = db.Column(db.Integer, nullable=True)
     total_bottom_score = db.Column(db.Integer, nullable=True)
     grand_total_score = db.Column(db.Integer, nullable=True)
+    round_id = db.Column(db.Integer, nullable=False, default=1)
+    roll = db.Column(db.Integer, nullable=False, default=1)
     user_id = db.Column(
         db.Integer, db.ForeignKey('user.id'), nullable=False
     )
