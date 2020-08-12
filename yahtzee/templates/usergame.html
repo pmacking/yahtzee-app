@@ -2,13 +2,16 @@
 {% block content %}
     <article class="media content-section">
       <div class="media-body">
-        <form method="POST" action="">
-            {{ form.hidden_tag() }} <!-- adds CSRF token: protect attacks-->
-            <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info mt-2") }}
-            </div>
-        </form>
-        {# <button type="button" class="btn btn-sm m-1 mb-4">Play Game</button> #}
+        {% if request.endpoint == "games.usergame" %}
+            <form method="POST" action="">
+                {{ form.hidden_tag() }} <!-- adds CSRF token: protect attacks-->
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info mt-2") }}
+                </div>
+            </form>
+        {% endif %}
+        {% block inception %}
+        {% endblock inception %}
         <div class="article-metadata">
             <medium class="text-muted mr-4">Game: {{ usergame.game_id }}</medium>
             <medium class="text-muted">Turn: {{ turn_user.username }}</medium>

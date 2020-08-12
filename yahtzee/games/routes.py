@@ -3,7 +3,8 @@ from flask_login import current_user, login_required
 
 from yahtzee import db
 from yahtzee.models import User, UsersGames, Game
-from yahtzee.games.forms import NewGameForm, CreateGameForm, PlayGameForm
+from yahtzee.games.forms import (NewGameForm, CreateGameForm,
+                                 PlayGameForm, RollDiceForm)
 from yahtzee.games.utils import get_game_state_json
 
 import logging, json
@@ -176,6 +177,7 @@ def usergame_round(game_id, usergame_id, round_id):
     :param turn_id: turn count from from UserGames model
     """
     usergame = UsersGames.query.get_or_404(usergame_id)
+    roll_id = usergame.roll_id
 
     # validate current_user is part of the game and usergame
     if game_id != usergame.game_id:
@@ -183,11 +185,10 @@ def usergame_round(game_id, usergame_id, round_id):
     if usergame.user_id != current_user.id:
         abort(403)
 
-    game = usergame.game
-
     # get turn_user_id from game_state for validation
     game_state_json = get_game_state_json(usergame.game_id)
     turn_user_id = game_state_json["turn_user_id"]
+    turn_user = User.query.get_or_404(turn_user_id)
     # get current_round from usergame for validation
     current_round = usergame.round_id
 
@@ -198,9 +199,37 @@ def usergame_round(game_id, usergame_id, round_id):
     if round_id != current_round:
         abort(403)
 
+    form = RollDiceForm()
+
+    if form.validate_on_submit():
+        return redirect(url_for(
+                    'games.round_roll',
+                    usergame_id=usergame_id,
+                    round_id=usergame.round_id,
+                    roll_id=roll_id)
+                    )
+
     return render_template(
         "usergame_round.html",
         title=usergame.game_id,
         usergame=usergame,
-        game=game
+        turn_user=turn_user,
+        form=form
         )
+
+
+@games.route(
+    f"/games/<int:game_id>/usersgames/<int:usergame_id>/round/<int:round_id>"
+    f"/roll/<int:roll_id>",
+    methods=['GET', 'POST']
+    )
+@login_required
+def round_roll(game_id, usergame_id, round_id, roll_id):
+    """
+    This function responds to the URL /usersgames/<usergame>
+
+    :param game_id: game_id from Game model
+    :param usergame_id: users_games_id from UserGames model
+    :param turn_id: turn count from from UserGames model
+    """
+    return game_id, usergame_id, round_id, roll_id

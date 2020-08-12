@@ -2,6 +2,11 @@ from flask_wtf import FlaskForm
 from wtforms import SubmitField
 
 
+class RollDiceForm(FlaskForm):
+    """Roll dice button utilized in usergame_round"""
+    submit = SubmitField('Roll Dice')
+
+
 class NewGameForm(FlaskForm):
     """
     This is the new game button utilized in read_games route
