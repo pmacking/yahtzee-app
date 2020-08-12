@@ -194,16 +194,30 @@ def usergame_round(game_id, usergame_id, round_id):
 
     # validate it's the current user's turn from game_state
     if turn_user_id != current_user.id:
-        abort(403)
+        flash(f"It is {turn_user.username}'s turn. Please wait for your "
+              f"turn.", 'danger')
+        return redirect(url_for(
+                    'games.usergame',
+                    game_id=usergame.game_id,
+                    usergame_id=usergame.usergame_id)
+                    )
+
     # validate round_id is equivalent to current_round in usersgame
     if round_id != current_round:
-        abort(403)
+        flash(f"Not the correct round. You are on round {current_round}",
+              'danger')
+        return redirect(url_for(
+                    'games.usergame',
+                    game_id=usergame.game_id,
+                    usergame_id=usergame.users_games_id)
+                    )
 
     form = RollDiceForm()
 
     if form.validate_on_submit():
         return redirect(url_for(
                     'games.round_roll',
+                    game_id=usergame.game_id,
                     usergame_id=usergame_id,
                     round_id=usergame.round_id,
                     roll_id=roll_id)
@@ -232,4 +246,45 @@ def round_roll(game_id, usergame_id, round_id, roll_id):
     :param usergame_id: users_games_id from UserGames model
     :param turn_id: turn count from from UserGames model
     """
-    return game_id, usergame_id, round_id, roll_id
+    usergame = UsersGames.query.get_or_404(usergame_id)
+    roll_id = usergame.roll_id
+
+    # validate current_user is part of the game and usergame
+    if game_id != usergame.game_id:
+        abort(403)
+    if usergame.user_id != current_user.id:
+        abort(403)
+
+    # get turn_user_id from game_state for validation
+    game_state_json = get_game_state_json(usergame.game_id)
+    turn_user_id = game_state_json["turn_user_id"]
+    turn_user = User.query.get_or_404(turn_user_id)
+    # get current_round from usergame for validation
+    current_round = usergame.round_id
+
+    # validate it's the current user's turn from game_state
+    if turn_user_id != current_user.id:
+        flash(f"It is {turn_user.username}'s turn. Please wait for your "
+              f"turn.", 'danger')
+        return redirect(url_for(
+                    'games.usergame',
+                    game_id=usergame.game_id,
+                    usergame_id=usergame.usergame_id)
+                    )
+
+    # validate round_id is equivalent to current_round in usersgame
+    if round_id != current_round:
+        flash(f"Not the correct round. You are on round {current_round}",
+              'danger')
+        return redirect(url_for(
+                    'games.usergame',
+                    game_id=usergame.game_id,
+                    usergame_id=usergame.users_games_id)
+                    )
+
+    return render_template(
+        "round_roll.html",
+        title=usergame.game_id,
+        usergame=usergame,
+        turn_user=turn_user,
+        )
