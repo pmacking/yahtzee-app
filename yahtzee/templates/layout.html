@@ -8,22 +8,23 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+  <!-- Custom CSS -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 
-  <!-- Add favicon icon to Flask app-->
+  <!-- Add favicon icon to Flask app -->
   <link rel="shortcut icon"
-        href="{{ url_for('static', filename='favicon/favicon.ico') }}">
+    href="{{ url_for('static', filename='favicon/favicon.ico') }}">
   <link rel="apple-touch-icon"
-        sizes="180x180"
-        href="{{ url_for('static', filename='favicon/apple-touch-icon.png') }}">
+    sizes="180x180"
+    href="{{ url_for('static', filename='favicon/apple-touch-icon.png') }}">
   <link rel="icon"
-        type="image/png"
-        sizes="180x180"
-        href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
+    type="image/png"
+    sizes="180x180"
+    href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
   <link rel="icon"
-        type="image/png"
-        sizes="16x16"
-        href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
+    type="image/png"
+    sizes="16x16"
+    href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
 
 
   {% if title %}
@@ -34,6 +35,7 @@
 </head>
 <body>
     <header class="site-header">
+      <!-- Navbar -->
       <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
         <div class="container">
           <a class="navbar-brand mr-4" href="/">Yahtzee</a>
@@ -45,6 +47,7 @@
               <a class="nav-item nav-link" href="{{ url_for('main.home') }}">Home</a>
               <a class="nav-item nav-link" href="{{ url_for('main.about') }}">About</a>
             </div>
+
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if current_user.is_authenticated %}
@@ -61,9 +64,11 @@
         </div>
       </nav>
     </header>
+
+    <!-- Main section of Body -->
     <main role="main" class="container">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-sm-12">
           {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
               {% for category, message in messages %}
@@ -73,18 +78,12 @@
               {% endfor %}
             {% endif %}
           {% endwith %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
           {% block content %}{% endblock %}
         </div>
-        {# <div class="col-md-4">
-          <div class="content-section">
-            <h3>The Sidebar</h3>
-            <p class='text-muted'>Additional items:
-              <ul class="list-group">
-                <li class="list-group-item list-group-item-light">Group Item</li>
-              </ul>
-            </p>
-          </div>
-        </div> #}
       </div>
     </main>
 
