@@ -1,18 +1,14 @@
 {% extends "usergame.html" %}
 {% block inception %}
-    <form method="POST" action="">
-        {{ form.hidden_tag() }} <!-- adds CSRF token: protect attacks-->
-        <div class="form-group">
-            {{ form.submit(class="btn btn-outline-info mt-2") }}
-        </div>
-    </form>
-    <div class="dice media mt-3 mb-3" id="diceDiv">
-        <img src="/static/dice/dice1.svg">
-        <img src="/static/dice/dice2.svg">
-        <img src="/static/dice/dice3.svg">
-        <img src="/static/dice/dice4.svg">
-        <img src="/static/dice/dice5.svg">
-        <img src="/static/dice/dice6.svg">
+    <div id="rollDiceBtn">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }} <!-- adds CSRF token: protect attacks-->
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info mt-2") }}
+            </div>
+        </form>
+    </div>
+    <div id="diceDiv">
     </div>
 {% endblock inception %}
 

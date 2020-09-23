@@ -68,7 +68,7 @@
     <!-- Main section of Body -->
     <main role="main" class="container">
       <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-8">
           {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
               {% for category, message in messages %}
@@ -81,7 +81,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-8">
           {% block content %}{% endblock %}
         </div>
       </div>
