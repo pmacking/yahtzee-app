@@ -15,8 +15,8 @@
         <section class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
-              <medium class="text-muted">Game:</medium>
-              <a class="mr-2" href="{{ url_for('games.usergame', game_id=ug.game_id, usergame_id=ug.users_games_id) }}">{{ ug.game_id }}</a>
+              <medium class="text-muted"></medium>
+              <a class="mr-2" href="{{ url_for('games.usergame', game_id=ug.game_id, usergame_id=ug.users_games_id) }}">Game: {{ ug.game_id }}</a>
             </div>
               {% for usergame in ug.game.users_games %}
                 <div>

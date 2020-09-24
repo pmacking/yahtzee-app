@@ -9,12 +9,6 @@ const diceImg3 = document.createElement('img');
 const diceImg4 = document.createElement('img');
 const diceImg5 = document.createElement('img');
 
-rollResult.appendChild(diceImg1);
-rollResult.appendChild(diceImg2);
-rollResult.appendChild(diceImg3);
-rollResult.appendChild(diceImg4);
-rollResult.appendChild(diceImg5);
-
 let diceBlob1 = fetchAndDecode('/static/dice/Dice1.svg');
 let diceBlob2 = fetchAndDecode('/static/dice/Dice2.svg');
 let diceBlob3 = fetchAndDecode('/static/dice/Dice3.svg');
@@ -23,7 +17,6 @@ let diceBlob5 = fetchAndDecode('/static/dice/Dice5.svg');
 let diceBlob6 = fetchAndDecode('/static/dice/Dice6.svg');
 
 let rAF;
-let rollCount = 1;
 
 diceImg1.setAttribute('id', 'diceImg1');
 diceImg2.setAttribute('id', 'diceImg2');
@@ -41,17 +34,50 @@ diceImg3.setAttribute('data-id', 'die');
 diceImg4.setAttribute('data-id', 'die');
 diceImg5.setAttribute('data-id', 'die');
 
+rollResult.appendChild(diceImg1);
+rollResult.appendChild(diceImg2);
+rollResult.appendChild(diceImg3);
+rollResult.appendChild(diceImg4);
+rollResult.appendChild(diceImg5);
+
+let diceImgArray = [diceImg1, diceImg2, diceImg3, diceImg4, diceImg5];
+
 startRollBtn.addEventListener('click', startRoll);
 stopRollBtn.addEventListener('click', stopRoll);
 scoringOptionBtn.addEventListener('click', selectScoringOption)
 
-console.log('PICK THAT OPTION');
-let diceImgArray = [diceImg1, diceImg2, diceImg3, diceImg4, diceImg5];
+
+let addToLocalStorageObject = function (name, key, value) {
+  // Get the existing data
+  let existing = localStorage.getItem(name);
+  // Otherwise, convert the localStorage string to an array
+  existing = existing ? JSON.parse(existing) : {};
+  // Add new data to localStorage Array
+  existing[key] = value;
+  // Save back to localStorage
+  localStorage.setItem(name, JSON.stringify(existing));
+};
+
+addToLocalStorageObject('localStorageObject', 'currentRollCount', 1);
+addToLocalStorageObject('localStorageObject', 'rollBtnTextContent', 'First Roll');
+
+let getFromLocalStorageObject = function (name, key) {
+  // Get existing data and parse JSON
+  let getExisting = localStorage.getItem(name);
+  getExisting = JSON.parse(getExisting);
+
+  return getExisting[key];
+}
 
 function startRoll() {
+  let rollCount = getFromLocalStorageObject('localStorageObject', 'currentRollCount')
+
   if(rollCount < 4) {
     stopRollBtn.style.display = 'block';
     startRollBtn.style.display = 'none';
+
+    // stop user from unselecting dice mid-roll
+    removeToggleDice();
 
     // add margin to top of rollResult dice div when added to block
     rollResult.className = "mt-3";
@@ -96,17 +122,22 @@ function stopRoll() {
   if (rollCount === 2) {
     stopRollHandler();
 
-    startRollBtn.textContent = 'Roll Two';
+    startRollBtn.textContent = 'Second Roll';
     startRollBtn.style.display = 'block';
   } else if (rollCount === 3) {
     stopRollHandler();
 
-    startRollBtn.textContent = 'Roll Three';
+    startRollBtn.textContent = 'Third Roll';
     startRollBtn.style.display = 'block';
   } else {
+    cancelAnimationFrame(rAF);
+
+    removeToggleDice();
+
     for(let i = 0; i < 5; i++) {
       diceImgArray[i].setAttribute('class', 'selected')
     }
+
     stopRollBtn.style.display = 'none'
     scoringOptionBtn.style.display = 'block';
   }
@@ -131,6 +162,14 @@ function toggleDice(e) {
   } else {
     e.target.className = 'unselected';
   }
+}
+
+function removeToggleDice() {
+  diceImg1.removeEventListener('click', toggleDice);
+  diceImg2.removeEventListener('click', toggleDice);
+  diceImg3.removeEventListener('click', toggleDice);
+  diceImg4.removeEventListener('click', toggleDice);
+  diceImg5.removeEventListener('click', toggleDice);
 }
 
 function selectScoringOption() {
