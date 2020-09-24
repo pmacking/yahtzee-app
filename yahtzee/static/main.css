@@ -91,11 +91,26 @@ a.article-title:hover {
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
+}
+
+.table-padding {
   padding: 5px;
 }
 
-.item {
+.item-table {
   margin: 5px;
   padding: 10px;
   background-color: #F8F8F8;
+}
+
+.hide {
+  display: none;
+}
+
+.unselected {
+  opacity: 0.2;
+}
+
+.selected {
+  opacity: 1;
 }
