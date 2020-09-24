@@ -130,6 +130,7 @@ def usergame(game_id, usergame_id):
     usergame = UsersGames.query.get_or_404(usergame_id)
 
     # get user whose turn it is
+    # TODO: improve UX for turn_user in each usergame
     game_state_json = get_game_state_json(usergame.game_id)
     turn_user_id = game_state_json["turn_user_id"]
     turn_user = User.query.get_or_404(turn_user_id)

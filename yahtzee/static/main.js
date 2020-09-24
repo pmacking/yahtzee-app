@@ -28,11 +28,7 @@ diceImg2.setAttribute('class', 'unselected');
 diceImg3.setAttribute('class', 'unselected');
 diceImg4.setAttribute('class', 'unselected');
 diceImg5.setAttribute('class', 'unselected');
-diceImg1.setAttribute('data-id', 'die');
-diceImg2.setAttribute('data-id', 'die');
-diceImg3.setAttribute('data-id', 'die');
-diceImg4.setAttribute('data-id', 'die');
-diceImg5.setAttribute('data-id', 'die');
+
 
 rollResult.appendChild(diceImg1);
 rollResult.appendChild(diceImg2);
@@ -58,82 +54,98 @@ let addToLocalStorageObject = function (name, key, value) {
   localStorage.setItem(name, JSON.stringify(existing));
 };
 
-addToLocalStorageObject('localStorageObject', 'currentRollCount', 1);
-addToLocalStorageObject('localStorageObject', 'rollBtnTextContent', 'First Roll');
 
 let getFromLocalStorageObject = function (name, key) {
   // Get existing data and parse JSON
-  let getExisting = localStorage.getItem(name);
-  getExisting = JSON.parse(getExisting);
-
-  return getExisting[key];
+  let existing = localStorage.getItem(name);
+  if (existing) {
+    existing = JSON.parse(existing);
+    return existing[key];
+  // Otherwise, if no key in object return null
+  } else {
+    return null;
+  }
 }
 
 function startRoll() {
-  let rollCount = getFromLocalStorageObject('localStorageObject', 'currentRollCount')
+  if (!getFromLocalStorageObject('clientRoundState', 'currentRollCount')) {
+    addToLocalStorageObject('clientRoundState', 'currentRollCount', 1)
+    rollMeatAndPotatoes();
+    // addToLocalStorageObject('clientRoundState', 'rolling', true);
 
-  if(rollCount < 4) {
-    stopRollBtn.style.display = 'block';
-    startRollBtn.style.display = 'none';
+  } else if (getFromLocalStorageObject('clientRoundState', 'currentRollCount') < 4) {
+    rollMeatAndPotatoes();
+  }
+}
 
-    // stop user from unselecting dice mid-roll
-    removeToggleDice();
+function rollMeatAndPotatoes() {
+  stopRollBtn.style.display = 'block';
+  startRollBtn.style.display = 'none';
 
-    // add margin to top of rollResult dice div when added to block
-    rollResult.className = "mt-3";
+  // stop user from selecting/unselecting dice mid-roll
+  removeToggleDice();
 
-    // fetch all dice blobs, and get objectURLs
-    Promise.all([diceBlob1, diceBlob2, diceBlob3, diceBlob4, diceBlob5, diceBlob6]).then(values => {
-        let dice1ObjectURL = URL.createObjectURL(values[0]);
-        let dice2ObjectURL = URL.createObjectURL(values[1]);
-        let dice3ObjectURL = URL.createObjectURL(values[2]);
-        let dice4ObjectURL = URL.createObjectURL(values[3]);
-        let dice5ObjectURL = URL.createObjectURL(values[4]);
-        let dice6ObjectURL = URL.createObjectURL(values[5]);
+  // add margin to top of rollResult dice div when added to block
+  rollResult.className = "mt-3";
 
-        // create array for randomly selecting dice images from
-        let diceObjectURLArray = [
-          dice1ObjectURL,
-          dice2ObjectURL,
-          dice3ObjectURL,
-          dice4ObjectURL,
-          dice5ObjectURL,
-          dice6ObjectURL
-        ]
+  // fetch all dice blobs, and get objectURLs
+  Promise.all([diceBlob1, diceBlob2, diceBlob3, diceBlob4, diceBlob5, diceBlob6]).then(values => {
+      let dice1ObjectURL = URL.createObjectURL(values[0]);
+      let dice2ObjectURL = URL.createObjectURL(values[1]);
+      let dice3ObjectURL = URL.createObjectURL(values[2]);
+      let dice4ObjectURL = URL.createObjectURL(values[3]);
+      let dice5ObjectURL = URL.createObjectURL(values[4]);
+      let dice6ObjectURL = URL.createObjectURL(values[5]);
 
-        // main dice rolling animation using rAF
-        let rollAction = function() {
-          for(i = 0; i < 5; i++) {
-            if(diceImgArray[i].getAttribute('class') === 'unselected') {
-              diceImgArray[i].setAttribute('src', diceObjectURLArray[random(6)]);
-            }
+      // create array for randomly selecting dice images from
+      let diceObjectURLArray = [
+        dice1ObjectURL,
+        dice2ObjectURL,
+        dice3ObjectURL,
+        dice4ObjectURL,
+        dice5ObjectURL,
+        dice6ObjectURL
+      ]
+
+      // main dice rolling animation using rAF
+      let rollAction = function() {
+        for(i = 0; i < 5; i++) {
+          if(diceImgArray[i].getAttribute('class') === 'unselected') {
+            diceImgArray[i].setAttribute('src', diceObjectURLArray[random(6)]);
           }
-
-          rAF = requestAnimationFrame(rollAction);
         }
 
-        rollAction();
-        rollCount++;
-    });
-  }
-};
+        rAF = requestAnimationFrame(rollAction);
+      }
+      rollAction();
+  });
+}
 
 function stopRoll() {
-  if (rollCount === 2) {
+
+  if (getFromLocalStorageObject('clientRoundState', 'currentRollCount') === 1) {
+    // Increment roll count, stop rolling animation, allow user to select/unselect images
+    addToLocalStorageObject('clientRoundState', 'currentRollCount', 2);
     stopRollHandler();
 
+    // Display start button with new textContent
     startRollBtn.textContent = 'Second Roll';
     startRollBtn.style.display = 'block';
-  } else if (rollCount === 3) {
+
+  } else if (getFromLocalStorageObject('clientRoundState', 'currentRollCount') === 2) {
+    // Increment roll count, stop rolling animation, allow user to select/unselect images
+    addToLocalStorageObject('clientRoundState', 'currentRollCount', 3);
     stopRollHandler();
 
+    //Display start button with new textContent
     startRollBtn.textContent = 'Third Roll';
     startRollBtn.style.display = 'block';
+
   } else {
     cancelAnimationFrame(rAF);
-
     removeToggleDice();
 
+    // Select all dice automatically on third roll
     for(let i = 0; i < 5; i++) {
       diceImgArray[i].setAttribute('class', 'selected')
     }
@@ -174,6 +186,10 @@ function removeToggleDice() {
 
 function selectScoringOption() {
   console.log('PICK THAT OPTION');
+  // present modal of available scoring choices
+  // let user select choice, and display potential score
+  // let user confirm choice
+  // confirming choice increments round_id (both client and server?), updates turn_player, resets currentRollCount of clientRoundState, and redirects user to usergame to wait their turn
 }
 
 function fetchAndDecode(url) {
