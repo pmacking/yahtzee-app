@@ -79,6 +79,37 @@ function startRoll() {
   }
 }
 
+let dice1ObjectURL = 0;
+let dice2ObjectURL = 0;
+let dice3ObjectURL = 0;
+let dice4ObjectURL = 0;
+let dice5ObjectURL = 0;
+let dice6ObjectURL = 0;
+
+let diceObjectURLArray = []
+
+
+window.onload = function() {
+  // fetch all dice blobs, and get objectURLs
+  Promise.all([diceBlob1, diceBlob2, diceBlob3, diceBlob4, diceBlob5, diceBlob6]).then(values => {
+    dice1ObjectURL = URL.createObjectURL(values[0]);
+    dice2ObjectURL = URL.createObjectURL(values[1]);
+    dice3ObjectURL = URL.createObjectURL(values[2]);
+    dice4ObjectURL = URL.createObjectURL(values[3]);
+    dice5ObjectURL = URL.createObjectURL(values[4]);
+    dice6ObjectURL = URL.createObjectURL(values[5]);
+
+    console.log(dice1ObjectURL);
+
+    diceObjectURLArray.push(dice1ObjectURL);
+    diceObjectURLArray.push(dice2ObjectURL);
+    diceObjectURLArray.push(dice3ObjectURL);
+    diceObjectURLArray.push(dice4ObjectURL);
+    diceObjectURLArray.push(dice5ObjectURL);
+    diceObjectURLArray.push(dice6ObjectURL);
+  });
+}
+
 function rollMeatAndPotatoes() {
   stopRollBtn.style.display = 'block';
   startRollBtn.style.display = 'none';
@@ -88,25 +119,6 @@ function rollMeatAndPotatoes() {
 
   // add margin to top of rollResult dice div when added to block
   rollResult.className = "mt-3";
-
-  // fetch all dice blobs, and get objectURLs
-  Promise.all([diceBlob1, diceBlob2, diceBlob3, diceBlob4, diceBlob5, diceBlob6]).then(values => {
-      let dice1ObjectURL = URL.createObjectURL(values[0]);
-      let dice2ObjectURL = URL.createObjectURL(values[1]);
-      let dice3ObjectURL = URL.createObjectURL(values[2]);
-      let dice4ObjectURL = URL.createObjectURL(values[3]);
-      let dice5ObjectURL = URL.createObjectURL(values[4]);
-      let dice6ObjectURL = URL.createObjectURL(values[5]);
-
-      // create array for randomly selecting dice images from
-      let diceObjectURLArray = [
-        dice1ObjectURL,
-        dice2ObjectURL,
-        dice3ObjectURL,
-        dice4ObjectURL,
-        dice5ObjectURL,
-        dice6ObjectURL
-      ]
 
       // main dice rolling animation using rAF
       let rollAction = function() {
@@ -119,7 +131,6 @@ function rollMeatAndPotatoes() {
         rAF = requestAnimationFrame(rollAction);
       }
       rollAction();
-  });
 }
 
 function stopRoll() {
