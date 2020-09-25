@@ -1,23 +1,110 @@
 {% extends "usergame.html" %}
 {% block inception %}
-
     <!-- Manages dice rolling UI and logic -->
     <div id="rollDice" class="mb-3">
-        <form method="POST" action="/button-type">
-            <div class="container-flex">
+            <div class="d-flex">
                 <button type="button" class="btn btn-outline-info mt-2" id="startRollBtn">Start Roll</button>
                 <button type="button" class="hide btn btn-outline-info mt-2" id="stopRollBtn">Stop Roll</button>
                 <button type="button" class="hide btn btn-outline-info mt-2" id="scoringOptionBtn">Select Scoring Option</button>
             </div>
-
-            {# {{ form.hidden_tag() }} <!-- adds CSRF token: protect attacks-->
-            <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info mt-2") }}
-            </div> #}
-        </form>
         <!-- Displays dice roll results -->
-        <div class="container-flex rollResult">
+        <div class="d-flex rollResult">
         </div>
     </div>
 {% endblock inception %}
-
+{% block scoringContentInception %}
+    <section class="media content-section d-none" id="scoringOptions">
+        <div class="media-body">
+            <div class="article-metadata">
+                <medium class="text-muted mr-4">Scoring Options</medium>
+            </div>
+            <div>
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>Top Options</th>
+                            <th>Select</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Ones</td>
+                            <td>
+                                Test
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Twos</td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Threes</td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Fours</td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Fives</td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sixes</td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Bottom Options</th>
+                            <th>Select</th>
+                        </tr>
+                        <tr>
+                            <td>Three of a Kind</td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Four of a Kind</td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Full House</td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Small Straight</td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Large Straight</td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Yahtzee</td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Chance</td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Yahtzee Bonus</td>
+                            <td>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+{% endblock scoringContentInception %}

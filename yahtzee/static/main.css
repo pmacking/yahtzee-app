@@ -93,16 +93,6 @@ a.article-title:hover {
   justify-content: flex-start;
 }
 
-.table-padding {
-  padding: 5px;
-}
-
-.item-table {
-  margin: 5px;
-  padding: 10px;
-  background-color: #F8F8F8;
-}
-
 .hide {
   display: none;
 }

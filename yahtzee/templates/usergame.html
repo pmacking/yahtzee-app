@@ -17,20 +17,20 @@
             {% endblock inception %}
         </div>
         <div class="article-metadata">
-            <medium class="text-muted mr-4">Game: {{ usergame.game_id }}</medium>
-            <medium class="text-muted">Round: {{ usergame.round_id }}</medium><br>
+            <medium class="text-muted mr-2">Game: {{ usergame.game_id }}</medium>
+            <medium class="text-muted mr-2">Round: {{ usergame.round_id }}</medium>
             <medium class="text-muted">Turn: {{ turn_user.username }}</medium>
         </div>
-        <div class="container-flex table-padding">
-            <div class="item-table">
-                <table>
+        <div class="d-flex">
+            <div>
+                <table class="table table-sm table-hover">
                     <tr>
                         <th>Top Options</th>
                         <th>Score</th>
                     </tr>
                     <tr>
                         <td>Ones</td>
-                        <td class="align-right">
+                        <td>
                         {% if usergame.ones != None %}
                         {{ usergame.ones }}
                         {% else %}
@@ -40,7 +40,7 @@
                     </tr>
                     <tr>
                         <td>Twos</td>
-                        <td class="align-right">
+                        <td>
                         {% if usergame.twos != None %}
                         {{ usergame.twos }}
                         {% else %}
@@ -50,7 +50,7 @@
                     </tr>
                     <tr>
                         <td>Threes</td>
-                        <td class="align-right">
+                        <td>
                         {% if usergame.threes != None %}
                         {{ usergame.threes }}
                         {% else %}
@@ -60,7 +60,7 @@
                     </tr>
                     <tr>
                         <td>Fours</td>
-                        <td class="align-right">
+                        <td>
                         {% if usergame.fours != None %}
                         {{ usergame.fours }}
                         {% else %}
@@ -70,7 +70,7 @@
                     </tr>
                     <tr>
                         <td>Fives</td>
-                        <td class="align-right">
+                        <td>
                         {% if usergame.fives != None %}
                         {{ usergame.fives }}
                         {% else %}
@@ -80,7 +80,7 @@
                     </tr>
                     <tr>
                         <td>Sixes</td>
-                        <td class="align-right">
+                        <td>
                         {% if usergame.sixes != None %}
                         {{ usergame.sixes }}
                         {% else %}
@@ -90,7 +90,7 @@
                     </tr>
                     <tr>
                         <td class="bold">Top Bonus Score</td>
-                        <td class="bold align-right">
+                        <td class="bold">
                         {% if usergame.top_bonus_score != None %}
                         {{ usergame.top_bonus_score }}
                         {% else %}
@@ -100,7 +100,7 @@
                     </tr>
                     <tr>
                         <td class="bold">Total Top Score</td>
-                        <td class="bold align-right">
+                        <td class="bold">
                         {% if usergame.total_top_score != None %}
                         {{ usergame.total_top_score }}
                         {% else %}
@@ -110,15 +110,15 @@
                     </tr>
                 </table>
             </div>
-            <div class="item-table">
-                <table>
+            <div>
+                <table class="table table-sm table-hover">
                     <tr>
                         <th>Bottom Options</th>
                         <th>Score</th>
                     </tr>
                     <tr>
                         <td>Three of a Kind</td>
-                        <td class="align-right">
+                        <td>
                         {% if usergame.three_of_a_kind != None %}
                         {{ usergame.three_of_a_kind }}
                         {% else %}
@@ -128,7 +128,7 @@
                     </tr>
                     <tr>
                         <td>Four of a Kind</td>
-                        <td class="align-right">
+                        <td>
                         {% if usergame.four_of_a_kind != None %}
                         {{ usergame.four_of_a_kind }}
                         {% else %}
@@ -138,7 +138,7 @@
                     </tr>
                     <tr>
                         <td>Full House</td>
-                        <td class="align-right">
+                        <td>
                         {% if usergame.full_house != None %}
                         {{ usergame.full_house }}
                         {% else %}
@@ -148,7 +148,7 @@
                     </tr>
                     <tr>
                         <td>Small Straight</td>
-                        <td class="align-right">
+                        <td>
                         {% if usergame.small_straight != None %}
                         {{ usergame.small_straight }}
                         {% else %}
@@ -158,7 +158,7 @@
                     </tr>
                     <tr>
                         <td>Large Straight</td>
-                        <td class="align-right">
+                        <td>
                         {% if usergame.large_straight != None %}
                         {{ usergame.large_straight }}
                         {% else %}
@@ -168,7 +168,7 @@
                     </tr>
                     <tr>
                         <td>Yahtzee</td>
-                        <td class="align-right">
+                        <td>
                         {% if usergame.yahtzee != None %}
                         {{ usergame.yahtzee }}
                         {% else %}
@@ -178,7 +178,7 @@
                     </tr>
                     <tr>
                         <td>Chance</td>
-                        <td class="align-right">
+                        <td>
                         {% if usergame.chance != None %}
                         {{ usergame.chance }}
                         {% else %}
@@ -188,7 +188,7 @@
                     </tr>
                     <tr>
                         <td>Yahtzee Bonus</td>
-                        <td class="align-right">
+                        <td>
                         {% if usergame.yahtzee_bonus != None %}
                         {{ usergame.yahtzee_bonus }}
                         {% else %}
@@ -197,8 +197,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="bold align-right">Total Bottom Score</td>
-                        <td class="bold align-right">
+                        <td class="bold">Total Bottom Score</td>
+                        <td class="bold">
                         {% if usergame.total_bottom_score != None %}
                         {{ usergame.total_bottom_score }}
                         {% else %}
@@ -212,16 +212,16 @@
       </div>
     </section>
     <section class="media content-section">
-        <div class="container-flex table-padding">
-            <div class="item-table">
-                <table>
+        <div class="d-flex">
+            <div>
+                <table class="table table-sm table-hover">
                     <tr>
                         <th>Summary</th>
                         <th>Score</th>
                     </tr>
                     <tr>
                         <td>Total Top Score</td>
-                        <td class="align-right">
+                        <td>
                         {% if usergame.total_top_score != None %}
                         {{ usergame.total_top_score }}
                         {% else %}
@@ -231,7 +231,7 @@
                     </tr>
                     <tr>
                         <td>Total Bottom Score</td>
-                        <td class="align-right">
+                        <td>
                         {% if usergame.total_bottom_score != None %}
                         {{ usergame.total_bottom_score }}
                         {% else %}
@@ -241,7 +241,7 @@
                     </tr>
                     <tr>
                         <td class="bold">Grand Total Score</td>
-                        <td class="bold align-right">
+                        <td class="bold">
                         {% if usergame.grand_total_score != None %}
                         {{ usergame.grand_total_score }}
                         {% else %}
@@ -254,3 +254,7 @@
         </div>
     </section>
 {% endblock content %}
+{% block scoringContent %}
+    {% block scoringContentInception %}
+    {% endblock scoringContentInception %}
+{% endblock scoringContent %}
