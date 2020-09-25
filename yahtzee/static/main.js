@@ -2,6 +2,7 @@ const startRollBtn = document.querySelector('#startRollBtn');
 const stopRollBtn = document.querySelector('#stopRollBtn');
 const scoringOptionBtn = document.querySelector('#scoringOptionBtn')
 const rollResult = document.querySelector('.rollResult');
+const scoringOptions = document.querySelector('#scoringOptions');
 
 const diceImg1 = document.createElement('img');
 const diceImg2 = document.createElement('img');
@@ -185,7 +186,7 @@ function removeToggleDice() {
 }
 
 function selectScoringOption() {
-  console.log('PICK THAT OPTION');
+  $(scoringOptions).removeClass('d-none');
   // present modal of available scoring choices
   // let user select choice, and display potential score
   // let user confirm choice
